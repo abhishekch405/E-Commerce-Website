@@ -5,6 +5,7 @@ products{
     
 }
 
+
 section h2{
     font-family:"Metal Mania";
     text-align: center;
@@ -66,3 +67,16 @@ section h2{
     background-color: aqua;
     transition: 0.3s linear;
 }
+
+
+.notification{
+    color: rebeccapurple;
+    background-color: cyan;
+    border-radius: 5px;
+    font-size: 30px;
+    
+    float:right;
+    margin: 1rem;
+    padding: 2rem;
+    display: flex;
+    }

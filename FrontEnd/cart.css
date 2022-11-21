@@ -83,3 +83,15 @@
 .purchase-btn:hover{
     background-color: #18acdd;
 }
+
+.del{
+    
+    border-radius: 8%;
+    outline: none;
+    border: none;
+    text-align: center;
+    margin-right: 20px;
+
+    background-color: red;
+    
+}
