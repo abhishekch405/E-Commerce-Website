@@ -1,14 +1,55 @@
 const express=require('express');
 const bodyParser=require('body-parser');
+
 const cors= require('cors');
-const storeRoutes=require("./routes/store");
+
+const storeRoutes=require("./routes/store.js");
 const adminRoutes=require('./routes/admin.js');
-const sequelize = require('./util/database');
+const cartRoutes=require('./routes/cart.js');
+
+const sequelize = require('./util/database.js');
+
+const Products=require('./models/products.js');
+const User=require('./models/user.js');
+
 const app=express();
 app.use(bodyParser.json());
 app.use(cors());
-app.use('/admin',adminRoutes);
+
+app.use((req,res,next)=>{
+    User.findByPk(1)
+        .then((user)=>{
+            req.user=user;
+            next();
+        })
+        .catch(err=>console.log(err));
+})
 
 app.use('/store',storeRoutes);
 
-sequelize.sync().then(()=>app.listen(3000)).catch(err=>console.log(err));
+app.use('/admin',adminRoutes);
+
+app.use('/cart',cartRoutes);
+
+Products.belongsTo(User,{constraints:true,onDelete:'CASCADE'});
+User.hasMany(Products);
+
+//sequelize.sync({force:true})
+sequelize
+    .sync()
+    .then((result)=>{
+        return User.findByPk(1)
+    })
+    .then((user)=>{
+        if(!user){
+            return User.create({name:'Abhishek',email:'abhishek@gmail.com'})
+        }
+        return user;
+    })
+    .then(user=>{
+       // console.log(user);
+        app.listen(3000);
+    })
+    .catch(err=>{
+        console.log(err
+    )});

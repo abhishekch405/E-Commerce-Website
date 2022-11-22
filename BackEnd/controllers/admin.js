@@ -12,5 +12,7 @@ exports.postProducts=(req,res,next)=>{
     const price=req.body.price;
     const description=req.body.description;
 
-    Products.create({title:title,imgsrc:imageUrl,price:price,description:description});
+    Products.create({title:title,imgsrc:imageUrl,price:price,description:description})
+        .then(result=>console.log("created a product"))
+        .catch(err=>console.log(err));
 }
