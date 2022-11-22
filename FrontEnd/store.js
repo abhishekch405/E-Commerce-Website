@@ -22,8 +22,31 @@ async function after(){
         //console.log("ProductContent",productContent);
         productContent.innerHTML+=product;
         //productContent.appendChild(product);
+
     });
     console.log(productContent);
+    
+    productContent.addEventListener('click',(e)=>{
+        if (e.target.className=="shop-item-button"){
+            const productId=e.target.parentNode.parentNode.id;
+            // const title=e.target.parentNode.parentNode.firstElementChild.innerText;
+            // const imageUrl=e.target.parentNode.parentNode.firstElementChild.nextSibling.nextSibling.firstElementChild.src;
+            const url="http://localhost:3000/cart"
+            const obj={
+                productId:productId    
+            }
+            axios.post(url,obj)
+                .then(res=>console.log(res))
+                .catch(err=>console.log(err));
+        }
+    })
+
+
+
+
+
+
+
 
     } catch (err) {
         console.log(err);
