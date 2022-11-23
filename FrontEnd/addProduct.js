@@ -15,7 +15,12 @@ btn.addEventListener('click',(e)=>{
     }
     console.log(obj);
     const url='http://localhost:3000/admin/add-product';
-    axios.post(url,obj).then(res=>console.log(res.data)).catch(err=>console.log(err));
+    axios.post(url,obj)
+        .then(res=>{
+            console.log(res.data);
+            alert(`Product :${title} added to the database`);
+        })
+        .catch(err=>console.log(err));
     
 })
 

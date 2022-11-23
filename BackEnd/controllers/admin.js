@@ -15,6 +15,25 @@ exports.postProducts=(req,res,next)=>{
     //Products.create({title:title,imgsrc:imageUrl,price:price,description:description})
 
     req.user.createProduct({title:title,imgsrc:imageUrl,price:price,description:description})
-        .then(result=>console.log("created a product"))
+        .then(result=>{
+            console.log("created a product");
+            res.status(201).json(req.body);
+        })
         .catch(err=>console.log(err));
+}
+
+exports.deleteProduct=(req,res,next)=>{
+    const productId=req.body.productId;
+
+    Products.findByPk(productId)
+        .then(product=>{
+            return product.destroy();
+        })
+        .then(result=>{
+            console.log('Product deleted from the database');
+            res.status(201).json(req.body);
+        })
+        .catch(err=>console.log(err));
+
+
 }

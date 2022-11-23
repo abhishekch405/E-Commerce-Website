@@ -58,19 +58,16 @@ cart.addEventListener('click',(e)=>{
         axios.post(url,object)
             .then(res=>{console.log(res)})
             .catch(err=>console.log(err));
-        const imgsrc=e.target.parentNode.parentNode.firstElementChild.firstElementChild.src;
-        const name=e.target.parentNode.parentNode.firstElementChild.firstElementChild.nextSibling.nextSibling.innerText
+        
         const price=e.target.parentNode.parentNode.firstElementChild.nextSibling.nextSibling.innerText
+        const quantity=e.target.parentNode.parentNode.firstElementChild.nextSibling.nextSibling.nextSibling.nextSibling.firstElementChild.value
+       
         const productRemove=e.target.parentNode.parentNode;
         productRemove.remove();
         let totalvalue=document.querySelector('#total-value').innerText;
 
-        totalvalue=parseFloat(totalvalue)-parseFloat(price);
+        totalvalue=parseFloat(totalvalue)-parseFloat(price)*parseFloat(quantity);
         document.querySelector('#total-value').innerText=`${totalvalue}`
-
-
-         const key=`${name}${imgsrc}${price}`;
-         localStorage.removeItem(key);
 
     }
 })

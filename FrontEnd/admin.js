@@ -16,7 +16,8 @@ async function after(){
         </div>
         <div class="product-details">
             <span>$<span>${element.price}</span></span>
-            <button class="shop-item-button" type="button">🛒</button>
+            <button class="shop-item-edit-button" type="button">✎</button>
+            <button class="shop-item-delete-button" type="button">x</button>
         </div>
         </div>`;
         //console.log("ProductContent",productContent);
@@ -24,7 +25,23 @@ async function after(){
         //productContent.appendChild(product);
     });
     console.log(productContent);
-    
+    productContent.addEventListener('click',(e)=>{
+        if (e.target.className==='shop-item-delete-button'){
+            const productItem=e.target.parentNode.parentNode
+            const productId=e.target.parentNode.parentNode.id;
+            const object={
+                productId:productId
+            }
+            const url="http://localhost:3000/admin/delete-product";
+            axios.post(url,object)
+                .then(()=>{
+                    console.log("deleted the product successfully");
+                    productItem.remove();
+                })
+                .catch(err=>console.log(err));
+            
+        }
+    });   
     } catch (err) {
         console.log(err);
     }

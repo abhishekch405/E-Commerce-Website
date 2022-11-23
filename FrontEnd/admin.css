@@ -53,18 +53,32 @@ section h2{
     width: 200px;
     height: 200px;
 }
-#product-content .shop-item-button{
+#product-content .shop-item-delete-button{
     cursor: pointer;
     padding: 10px;
     color: white;
-    background-color: red;
+    background-color: rgba(255, 0, 0, 0.752);
     font-size: 15px;
     font-weight: bold;
     border-radius: 8px;
 }
 
-#product-content .shop-item-button:hover{
-    background-color: aqua;
+#product-content .shop-item-delete-button:hover{
+    background-color: rgba(255, 0, 0, 0.939);
+    transition: 0.3s linear;
+}
+#product-content .shop-item-edit-button{
+    cursor: pointer;
+    padding: 10px;
+    color: black;
+    background-color: grey;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 8px;
+}
+
+#product-content .shop-item-edit-button:hover{
+    background-color: rgba(255, 255, 255, 0.389);
     transition: 0.3s linear;
 }
 

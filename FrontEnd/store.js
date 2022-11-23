@@ -29,14 +29,23 @@ async function after(){
     productContent.addEventListener('click',(e)=>{
         if (e.target.className=="shop-item-button"){
             const productId=e.target.parentNode.parentNode.id;
-            // const title=e.target.parentNode.parentNode.firstElementChild.innerText;
+            const title=e.target.parentNode.parentNode.firstElementChild.innerText;
             // const imageUrl=e.target.parentNode.parentNode.firstElementChild.nextSibling.nextSibling.firstElementChild.src;
             const url="http://localhost:3000/cart"
             const obj={
                 productId:productId    
             }
             axios.post(url,obj)
-                .then(res=>console.log(res))
+                .then(res=>{
+                    console.log(res);
+                    const products=document.getElementById("products");
+                    const notif=document.createElement('div');
+                    notif.classList.add('notification');
+                    notif.innerHTML=`<h4>Your Product: <span> ${title} </span> is added to the cart `;
+                    products.appendChild(notif);
+                    setTimeout(()=>{notif.remove();
+             },3000)
+                })
                 .catch(err=>console.log(err));
         }
     })
