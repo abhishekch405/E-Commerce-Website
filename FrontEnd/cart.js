@@ -1,15 +1,3 @@
-// window.addEventListener("DOMContentLoaded",showCartProducts);
-
-// function showCartProducts(){
-//     const url="http://localhost:3000/cart"
-
-//     axios.get(url)
-//         .then(res=>{
-//             //console.log(res.data);
-
-//         })
-//         .catch(err=>console.log(err));
-// }
 window.addEventListener("DOMContentLoaded",showCartProducts)
 
 function showCartProducts(){
@@ -21,6 +9,7 @@ function showCartProducts(){
             const products=res.data;
             let total_cart_price=0;
             products.forEach(object=>{
+                const productId=object.id;
                 const imgsrc=object.imgsrc;
                 const title=object.title;
                 const price=object.price;
@@ -29,6 +18,7 @@ function showCartProducts(){
                 total_cart_price=parseFloat(total_cart_price)+parseFloat(price)*parseFloat(quantity);
                 
                 const cartItem=document.createElement('div');
+                cartItem.setAttribute("id",`${productId}`);
                 cartItem.classList.add('cart-row');
                 
                 cartItem.innerHTML=`<span class="cart-item cart-column"><img class=" cart-img"src="${imgsrc}" alt="">
@@ -47,7 +37,6 @@ const purchaseBtn=document.getElementById("purchase-btn");
 
 purchaseBtn.addEventListener('click',purchase);
 function purchase(){
-     localStorage.clear();
      const cartItems=document.getElementsByClassName('cart-row');
      console.log(cartItems.length)
      Array.from(cartItems).forEach((item)=>{
@@ -59,7 +48,16 @@ function purchase(){
 
 const cart=document.getElementById('cart');
 cart.addEventListener('click',(e)=>{
+    e.preventDefault();
     if (e.target.className=='del'){
+        const productId=e.target.parentNode.parentNode.id;
+        const object={
+            productId:productId
+        }
+        const url="http://localhost:3000/cart/delete-cart-item"
+        axios.post(url,object)
+            .then(res=>{console.log(res)})
+            .catch(err=>console.log(err));
         const imgsrc=e.target.parentNode.parentNode.firstElementChild.firstElementChild.src;
         const name=e.target.parentNode.parentNode.firstElementChild.firstElementChild.nextSibling.nextSibling.innerText
         const price=e.target.parentNode.parentNode.firstElementChild.nextSibling.nextSibling.innerText

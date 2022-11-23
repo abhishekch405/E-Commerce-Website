@@ -42,13 +42,22 @@ exports.postCartProducts=(req,res,next)=>{
             res.status(201).json(product);
         })
         .catch(err=>console.log(err));
-    // req.user.getCart()
-    // .then(cart=>{
-    //   return cart.getProducts()
-    //     .then(products=>{
-    //       res.status(201).json(products)
-    //     })
-    //     .catch(err=>console.log(err))
-    // })
-    // .catch(err=>console.log(err));
+}
+
+exports.deleteCartProduct=(req,res,next)=>{
+    let productId=req.body.productId;
+    console.log(productId);
+    req.user.getCart()
+        .then(cart=>{
+            return cart.getProducts({where:{id:productId}})
+        })
+        .then(products=>{
+            product=products[0];
+            product.cartItems.destroy();
+        })
+        .then(result=>{
+            console.log("Product removed from the Cart");
+            res.status(201);
+        })
+        .catch(err=>console.log(err));
 }
