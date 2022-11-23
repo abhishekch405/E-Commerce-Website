@@ -1,7 +1,33 @@
 const Products=require('../models/products.js')
 
-exports.getProducts=(req,res,next)=>{
-    Products.findAll().then(products=>{
-        res.status(201).json(products)
-    }).catch(err=>console.log("Get Request Error",err));
+// exports.getProducts=(req,res,next)=>{
+//     let page=req.query.page;
+//     if (!page){
+//     Products.findAll()
+//         .then(products=>{
+//         res.status(201).json(products)
+//         })  
+//         .catch(err=>console.log("Get Request Error",err));
+//     }
+// }
+
+const items_per_page=4;
+exports.getProducts= async (req,res,next)=>{
+    let page=req.query.page;
+    if(!page){page=1;}
+    let totalItems;
+
+    let productCount,products;
+
+    try {
+        productCount=await Products.count();
+        console.log(productCount,"No o Products in Products table");
+        products=await Products.findAll({offset:(page-1)*items_per_page,limit:items_per_page});
+        
+       
+        res.status(201).json({products:products,count:productCount,items_per_page:items_per_page});
+        
+    } catch (err) {
+        console.log(err);
+    }
 }

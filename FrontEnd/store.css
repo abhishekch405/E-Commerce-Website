@@ -79,4 +79,21 @@ section h2{
     margin: 1rem;
     padding: 2rem;
     display: flex;
-    }
+}
+
+.pagination{
+    margin-top: 2px;
+    text-align: center;
+}
+
+.pagination .pagination-button{
+    text-decoration: none;
+    color: grey;
+    padding: 0.5rem;
+    border: 1px solid grey;
+    margin: 0 1rem;
+}
+ .pagination .pagination-button:hover{
+    background-color: grey;
+    color:white
+ }
