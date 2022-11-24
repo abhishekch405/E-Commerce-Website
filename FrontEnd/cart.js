@@ -117,6 +117,18 @@ function showOnOrderPage(products){
     orderBtn.addEventListener('click',(e)=>{
         console.log(e.target.parentNode.childNodes[7]);
         const url="http://localhost:3000/cart/order"
-        axios.post(url,products).then(res=>console.log(err)).catch(err=>console.log(err));
+        axios.post(url,products)
+            .then(res=>{
+                const notif=document.createElement('div');
+                    notif.innerHTML=`Order successflly placed with order id= ${res.data.orderId}`;
+                    console.log(res.data);
+                    const notification=document.getElementById("notification");
+                    notification.classList.add("active");
+                    notification.appendChild(notif)
+                    setTimeout(()=>{notif.remove();
+                        notification.classList.remove("active");
+             },3000)
+            })
+            .catch(err=>console.log(err));
     })
 }

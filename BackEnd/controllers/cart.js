@@ -63,5 +63,29 @@ exports.deleteCartProduct=(req,res,next)=>{
 }
 
 exports.order=(req,res,next)=>{
-    console.log(req.body);
+    let total_amount=0;
+    let fetchedOrder;
+    let orderId;
+    req.user.createOrder()
+        .then(order=>{
+            fetchedOrder=order;
+            orderId=order.id;
+            return req.user.getCart()
+        })
+        .then(cart=>{
+            return cart.getProducts()
+        })
+        .then(products=>{
+            products.forEach((item)=>{
+                fetchedOrder.addProduct(item,{through:{quantity:item.cartItems.quantity}})
+                total_amount+=item.cartItems.quantity*item.price;
+                item.cartItems.destroy();
+            })
+        })
+        .then(()=>{
+            fetchedOrder.set({amount:total_amount});
+            fetchedOrder.save();
+            res.status(200).json({success:true,orderId:orderId})
+        })
+        .catch(err=>console.log(err));
 }

@@ -60,8 +60,15 @@ sequelize
         return user;
     })
     .then(user=>{
-       // console.log(user);
-       return user.createCart();
+       user.getCart()
+       .then(cart=>{
+        if(!cart){
+            return user.createCart()
+        }
+        else{
+            return cart
+        }
+       })
     })
     .then(cart=>{
         app.listen(3000);

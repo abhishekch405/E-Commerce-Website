@@ -223,3 +223,12 @@
     cursor:pointer;
     
 }
+
+.popup .notification.active{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: orchid;
+    color: black;
+    border: 1px solid blueviolet
+}
