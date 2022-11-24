@@ -13,6 +13,9 @@ const Products=require('./models/products.js');
 const User=require('./models/user.js');
 const Cart =require('./models/cart.js');
 const CartItem=require('./models/cartItem.js');
+const Order=require('./models/order.js');
+const OrderItem=require('./models/orderItem.js');
+
 
 const app=express();
 app.use(bodyParser.json());
@@ -40,6 +43,10 @@ Cart.belongsTo(User);
 Cart.belongsToMany(Products,{through:CartItem});
 Products.belongsToMany(Cart,{through:CartItem});
 
+User.hasMany(Order)
+Order.belongsTo(User);
+Products.belongsToMany(Order,{through:OrderItem});
+Order.belongsToMany(Products,{through:OrderItem});
 //sequelize.sync({force:true})
 sequelize
     .sync()

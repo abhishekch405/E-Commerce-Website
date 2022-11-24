@@ -61,3 +61,7 @@ exports.deleteCartProduct=(req,res,next)=>{
         })
         .catch(err=>console.log(err));
 }
+
+exports.order=(req,res,next)=>{
+    console.log(req.body);
+}
