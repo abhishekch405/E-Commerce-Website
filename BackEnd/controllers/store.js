@@ -1,16 +1,5 @@
 const Products=require('../models/products.js')
 
-// exports.getProducts=(req,res,next)=>{
-//     let page=req.query.page;
-//     if (!page){
-//     Products.findAll()
-//         .then(products=>{
-//         res.status(201).json(products)
-//         })  
-//         .catch(err=>console.log("Get Request Error",err));
-//     }
-// }
-
 const items_per_page=4;
 exports.getProducts= async (req,res,next)=>{
     let page=req.query.page;

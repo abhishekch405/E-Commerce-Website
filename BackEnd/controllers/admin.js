@@ -1,39 +1,40 @@
 const Products=require('../models/products.js')
 
-exports.getProducts=(req,res,next)=>{
-    Products.findAll().then(products=>{
-        res.status(201).json(products)
-    }).catch(err=>console.log("Get Request Error",err));
+exports.getProducts= async (req,res,next)=>{
+    try {
+        const products=await Products.findAll();
+        res.status(201).json(products)    
+    } catch (err) {
+        console.log("Get Request Error",err)
+    }
 }
-exports.postProducts=(req,res,next)=>{
-    //console.log(req.body);
+exports.postProducts= async (req,res,next)=>{
     const title=req.body.title;
     const imageUrl=req.body.imageUrl;
     const price=req.body.price;
     const description=req.body.description;
     
-    //Products.create({title:title,imgsrc:imageUrl,price:price,description:description})
+    try {
+        const result= await  req.user.createProduct({title:title,imgsrc:imageUrl,price:price,description:description});
+        console.log("created a product");
+        res.status(201).json(req.body);
+    } catch (error) {
+        console.log(error);
+    }   
 
-    req.user.createProduct({title:title,imgsrc:imageUrl,price:price,description:description})
-        .then(result=>{
-            console.log("created a product");
-            res.status(201).json(req.body);
-        })
-        .catch(err=>console.log(err));
 }
 
-exports.deleteProduct=(req,res,next)=>{
+exports.deleteProduct= async (req,res,next)=>{
     const productId=req.body.productId;
 
-    Products.findByPk(productId)
-        .then(product=>{
-            return product.destroy();
-        })
-        .then(result=>{
-            console.log('Product deleted from the database');
-            res.status(201).json(req.body);
-        })
-        .catch(err=>console.log(err));
+    try {
+        const product=await Products.findByPk(productId);
+        const result=await product.destroy();
+        console.log('Product deleted from the database');
+        res.status(201).json(req.body);
 
+    } catch (error) {
+        console.log(error);
+    }
 
 }
