@@ -1,5 +1,7 @@
 const Cart=require('../models/cart.js');
 const Products = require('../models/products.js');
+const Order=require('../models/order');
+const OrderItem=require('../models/orderItem');
 
 exports.getCartProducts=async (req,res,next)=>{
     try {
@@ -107,29 +109,14 @@ exports.order=async (req,res,next)=>{
     } catch (error) {
         console.log(error);
     }
+}
 
-
-
-    // req.user.createOrder()
-    //     .then(order=>{
-    //         fetchedOrder=order;
-    //         orderId=order.id;
-    //         return req.user.getCart()
-    //     })
-    //     .then(cart=>{
-    //         return cart.getProducts()
-    //     })
-    //     .then(products=>{
-    //         products.forEach((item)=>{
-    //             fetchedOrder.addProduct(item,{through:{quantity:item.cartItems.quantity}})
-    //             total_amount+=item.cartItems.quantity*item.price;
-    //             item.cartItems.destroy();
-    //         })
-    //     })
-    //     .then(()=>{
-    //         fetchedOrder.set({amount:total_amount});
-    //         fetchedOrder.save();
-    //         res.status(200).json({success:true,orderId:orderId})
-    //     })
-    //     .catch(err=>console.log(err));
+exports.getAllOrders=async (req,res,next)=>{
+    try {
+        const orders=await req.user.getOrders({include:[`products`]});
+        res.status(201).json({success:true,orders:orders});     
+    } catch (error) {
+        res.json(error);
+        console.log(error);
+    }
 }
